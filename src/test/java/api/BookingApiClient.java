@@ -3,6 +3,7 @@ package api;
 import io.qameta.allure.Step;
 import models.booking.BookingModel;
 import models.booking.CreateBookingResponseModel;
+import models.booking.PatchBookingModel;
 
 import static io.restassured.RestAssured.given;
 import static specs.booking.BookingSpec.bookingBadRequestResponseSpec;
@@ -10,7 +11,9 @@ import static specs.booking.BookingSpec.bookingForbiddenResponseSpec;
 import static specs.booking.BookingSpec.bookingNotFoundResponseSpec;
 import static specs.booking.BookingSpec.bookingRequestSpec;
 import static specs.booking.BookingSpec.createBookingResponseSpec;
+import static specs.booking.BookingSpec.deleteBookingResponseSpec;
 import static specs.booking.BookingSpec.getBookingResponseSpec;
+import static specs.booking.BookingSpec.patchBookingResponseSpec;
 import static specs.booking.BookingSpec.updateBookingResponseSpec;
 
 public class BookingApiClient {
@@ -80,6 +83,52 @@ public class BookingApiClient {
             .body(body)
             .when()
             .put("/booking/{id}", id)
+            .then()
+            .spec(bookingForbiddenResponseSpec)
+            .extract()
+            .asString();
+    }
+
+    @Step("Частичное обновление бронирования")
+    public BookingModel patchBooking(String token, int id, PatchBookingModel body) {
+        return given(bookingRequestSpec)
+            .header("Cookie", "token=" + token)
+            .body(body)
+            .when()
+            .patch("/booking/{id}", id)
+            .then()
+            .spec(patchBookingResponseSpec)
+            .extract()
+            .as(BookingModel.class);
+    }
+
+    @Step("Частичное обновление бронирования без токена авторизации")
+    public String patchBookingWithoutToken(int id, PatchBookingModel body) {
+        return given(bookingRequestSpec)
+            .body(body)
+            .when()
+            .patch("/booking/{id}", id)
+            .then()
+            .spec(bookingForbiddenResponseSpec)
+            .extract()
+            .asString();
+    }
+
+    @Step("Удаление бронирования")
+    public void deleteBooking(String token, int id) {
+        given(bookingRequestSpec)
+            .header("Cookie", "token=" + token)
+            .when()
+            .delete("/booking/{id}", id)
+            .then()
+            .spec(deleteBookingResponseSpec);
+    }
+
+    @Step("Удаление бронирования без токена авторизации")
+    public String deleteBookingWithoutToken(int id) {
+        return given(bookingRequestSpec)
+            .when()
+            .delete("/booking/{id}", id)
             .then()
             .spec(bookingForbiddenResponseSpec)
             .extract()

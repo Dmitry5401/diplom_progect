@@ -37,6 +37,19 @@ public class BookingSpec {
         .expectBody("firstname", notNullValue())
         .build();
 
+    public static ResponseSpecification patchBookingResponseSpec = new ResponseSpecBuilder()
+        .log(ALL)
+        .expectStatusCode(200)
+        .expectBody(matchesJsonSchemaInClasspath(
+            "schemas/booking/booking_response_schema.json"))
+        .expectBody("firstname", notNullValue())
+        .build();
+
+    public static ResponseSpecification deleteBookingResponseSpec = new ResponseSpecBuilder()
+        .log(ALL)
+        .expectStatusCode(201)
+        .build();
+
     public static ResponseSpecification bookingNotFoundResponseSpec = new ResponseSpecBuilder()
         .log(ALL)
         .expectStatusCode(404)
