@@ -1,4 +1,4 @@
-package tests.ui;
+package tests.api;
 
 import io.qameta.allure.Step;
 import models.booking.BookingDatesModel;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
-import static tests.ui.TestData.NONEXISTENT_BOOKING_ID;
-import static tests.ui.TestData.NOT_FOUND_BODY;
+import static tests.api.TestData.NONEXISTENT_BOOKING_ID;
+import static tests.api.TestData.NOT_FOUND_BODY;
 
 @DisplayName("API restful-booker: Получение бронирования по idю Метод GET")
 public class GetBookingTests extends TestBase {

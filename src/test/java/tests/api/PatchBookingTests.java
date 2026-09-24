@@ -1,4 +1,4 @@
-package tests.ui;
+package tests.api;
 
 import io.qameta.allure.Step;
 import models.auth.AuthRequestModel;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
-import static tests.ui.TestData.*;
+import static tests.api.TestData.*;
 
 @DisplayName("API restful-booker: Частичное обновление бронирования. Метод PATCH")
 public class PatchBookingTests extends TestBase {

@@ -1,4 +1,4 @@
-package tests.ui;
+package tests.api;
 
 import api.ApiClient;
 import io.restassured.RestAssured;
