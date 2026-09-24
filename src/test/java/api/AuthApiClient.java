@@ -11,12 +11,14 @@ import static specs.auth.AuthSpec.successfulAuthResponseSpec;
 
 public class AuthApiClient {
 
+    private static final String AUTH_PATH = "/auth";
+
     @Step("Авторизация и получение токена")
     public String createToken(AuthRequestModel authBody) {
         return given(authRequestSpec)
             .body(authBody)
             .when()
-            .post("/auth")
+            .post(AUTH_PATH)
             .then()
             .spec(successfulAuthResponseSpec)
             .extract()
@@ -28,7 +30,7 @@ public class AuthApiClient {
         return given(authRequestSpec)
             .body(authBody)
             .when()
-            .post("/auth")
+            .post(AUTH_PATH)
             .then()
             .spec(badCredentialsAuthResponseSpec)
             .extract()
