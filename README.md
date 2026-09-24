@@ -18,8 +18,14 @@ Java + Gradle + JUnit 5 + REST Assured + Allure. Структура раздел
 | `PUT /booking/{id}` | Полное обновление с токеном → `200` | Обновление без авторизации → `403` |
 | `PATCH /booking/{id}` | Частичное обновление с токеном → `200` | Обновление без авторизации → `403` |
 | `DELETE /booking/{id}` | Удаление с токеном → `201` | Удаление без авторизации → `403` |
+| `POST /auth` | Получение токена с валидными данными → `200` | Неверный пароль → `Bad credentials` |
 
-Токен для `PUT` / `PATCH` / `DELETE` берётся через `POST /auth` (`admin` / `password123`).
+Токен для `PUT` / `PATCH` / `DELETE` берётся через `POST /auth`. Учётные данные по
+умолчанию — `admin` / `password123`; их можно переопределить системными свойствами
+`-DadminUsername=... -DadminPassword=...`.
+
+Созданные в тестах бронирования удаляются в `@AfterEach`, чтобы не оставлять мусор
+на сервере.
 
 ## Стек
 
@@ -40,6 +46,12 @@ Java + Gradle + JUnit 5 + REST Assured + Allure. Структура раздел
 ```bash
 ./gradlew test -DbaseUrl=https://restful-booker.herokuapp.com
 ```
+
+## CI
+
+Тесты автоматически запускаются в GitHub Actions на каждый push и pull request
+в `main` (workflow `.github/workflows/tests.yml`). Отчёт и allure-results
+сохраняются как артефакты сборки.
 
 ## Отчёт Allure
 
