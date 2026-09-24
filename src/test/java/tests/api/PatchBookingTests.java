@@ -1,8 +1,6 @@
 package tests.api;
 
-import io.qameta.allure.Step;
 import models.auth.AuthRequestModel;
-import models.booking.BookingDatesModel;
 import models.booking.BookingModel;
 import models.booking.CreateBookingResponseModel;
 import models.booking.PatchBookingModel;
@@ -53,18 +51,6 @@ public class PatchBookingTests extends TestBase {
 
         step("Проверка ответа 'Forbidden'", () ->
             assertThat(response).contains(FORBIDDEN_BODY)
-        );
-    }
-
-    @Step("Подготовка данных для бронирования")
-    private BookingModel newBookingBody() {
-        return new BookingModel(
-            faker.name().firstName(),
-            faker.name().lastName(),
-            faker.number().numberBetween(50, 5000),
-            faker.bool().bool(),
-            new BookingDatesModel("2024-01-01", "2024-12-31"),
-            faker.options().option("Breakfast", "Dinner", "Late checkout", "Extra towels")
         );
     }
 }

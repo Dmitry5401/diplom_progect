@@ -1,11 +1,8 @@
 package tests.api;
 
-import io.qameta.allure.Step;
 import models.auth.AuthRequestModel;
-import models.booking.BookingDatesModel;
 import models.booking.BookingModel;
 import models.booking.CreateBookingResponseModel;
-import net.datafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +12,6 @@ import static tests.api.TestData.*;
 
 @DisplayName("API restful-booker: Полное обновление бронирования. Метод PUT")
 public class UpdateBookingTests extends TestBase{
-
-    private final Faker faker = new Faker();
 
     @Test
     @DisplayName("PUT: полное обновление бронирования (позитивный сценарий, 200)")
@@ -48,18 +43,6 @@ public class UpdateBookingTests extends TestBase{
 
         step("Проверка ответа 'Forbidden'", () ->
             assertThat(response).contains(FORBIDDEN_BODY)
-        );
-    }
-
-    @Step("Подготовка данных для бронирования")
-    private BookingModel newBookingBody() {
-        return new BookingModel(
-            faker.name().firstName(),
-            faker.name().lastName(),
-            faker.number().numberBetween(50, 5000),
-            faker.bool().bool(),
-            new BookingDatesModel("2024-01-01", "2024-12-31"),
-            faker.options().option("Breakfast", "Dinner", "Late checkout", "Extra towels")
         );
     }
 }
