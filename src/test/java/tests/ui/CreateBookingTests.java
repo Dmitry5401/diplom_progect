@@ -23,7 +23,7 @@ public class CreateBookingTests extends TestBase{
 
         BookingModel bookingData = newBookingBody();
 
-        CreateBookingResponseModel response = api.booking.createBooking(newBookingBody());
+        CreateBookingResponseModel response = api.booking.createBooking(bookingData);
 
         step("Проверка созданного бронирования", () -> {
             assertThat(response.bookingid()).isPositive();
