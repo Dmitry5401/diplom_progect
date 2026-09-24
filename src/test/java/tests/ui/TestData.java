@@ -1,4 +1,4 @@
-package tests;
+package tests.ui;
 
 public class TestData {
 
