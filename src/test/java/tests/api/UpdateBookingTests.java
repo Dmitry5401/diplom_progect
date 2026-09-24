@@ -10,13 +10,13 @@ import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 import static tests.api.TestData.*;
 
-@DisplayName("API restful-booker: Полное обновление бронирования. Метод PUT")
-public class UpdateBookingTests extends TestBase{
+@DisplayName("API restful-booker: полное обновление бронирования. Метод PUT")
+public class UpdateBookingTests extends TestBase {
 
     @Test
     @DisplayName("PUT: полное обновление бронирования (позитивный сценарий, 200)")
     public void updateBookingTest() {
-        CreateBookingResponseModel createdBooking = api.booking.createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
         String token = api.auth.createToken(new AuthRequestModel(ADMIN_USERNAME, ADMIN_PASSWORD));
         BookingModel updateData = newBookingBody();
 
@@ -36,7 +36,7 @@ public class UpdateBookingTests extends TestBase{
     @Test
     @DisplayName("PUT: обновление бронирования без авторизации (ошибка, 403)")
     public void updateBookingWithoutTokenTest() {
-        CreateBookingResponseModel createdBooking = api.booking.createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
 
         String response =
             api.booking.updateBookingWithoutToken(createdBooking.bookingid(), newBookingBody());

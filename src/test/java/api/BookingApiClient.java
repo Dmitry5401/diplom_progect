@@ -18,12 +18,16 @@ import static specs.booking.BookingSpec.updateBookingResponseSpec;
 
 public class BookingApiClient {
 
+    private static final String BOOKING_PATH = "/booking";
+    private static final String BOOKING_BY_ID_PATH = "/booking/{id}";
+    private static final String TOKEN_COOKIE = "token";
+
     @Step("Создание бронирования")
     public CreateBookingResponseModel createBooking(BookingModel body) {
         return given(bookingRequestSpec)
             .body(body)
             .when()
-            .post("/booking")
+            .post(BOOKING_PATH)
             .then()
             .spec(createBookingResponseSpec)
             .extract()
@@ -35,7 +39,7 @@ public class BookingApiClient {
         return given(bookingRequestSpec)
             .body(body)
             .when()
-            .post("/booking")
+            .post(BOOKING_PATH)
             .then()
             .spec(bookingBadRequestResponseSpec)
             .extract()
@@ -46,7 +50,7 @@ public class BookingApiClient {
     public BookingModel getBooking(int id) {
         return given(bookingRequestSpec)
             .when()
-            .get("/booking/{id}", id)
+            .get(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(getBookingResponseSpec)
             .extract()
@@ -57,7 +61,7 @@ public class BookingApiClient {
     public String getMissingBooking(int id) {
         return given(bookingRequestSpec)
             .when()
-            .get("/booking/{id}", id)
+            .get(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(bookingNotFoundResponseSpec)
             .extract()
@@ -67,10 +71,10 @@ public class BookingApiClient {
     @Step("Полное обновление бронирования")
     public BookingModel updateBooking(String token, int id, BookingModel body) {
         return given(bookingRequestSpec)
-            .header("Cookie", "token=" + token)
+            .cookie(TOKEN_COOKIE, token)
             .body(body)
             .when()
-            .put("/booking/{id}", id)
+            .put(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(updateBookingResponseSpec)
             .extract()
@@ -82,7 +86,7 @@ public class BookingApiClient {
         return given(bookingRequestSpec)
             .body(body)
             .when()
-            .put("/booking/{id}", id)
+            .put(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(bookingForbiddenResponseSpec)
             .extract()
@@ -92,10 +96,10 @@ public class BookingApiClient {
     @Step("Частичное обновление бронирования")
     public BookingModel patchBooking(String token, int id, PatchBookingModel body) {
         return given(bookingRequestSpec)
-            .header("Cookie", "token=" + token)
+            .cookie(TOKEN_COOKIE, token)
             .body(body)
             .when()
-            .patch("/booking/{id}", id)
+            .patch(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(patchBookingResponseSpec)
             .extract()
@@ -107,7 +111,7 @@ public class BookingApiClient {
         return given(bookingRequestSpec)
             .body(body)
             .when()
-            .patch("/booking/{id}", id)
+            .patch(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(bookingForbiddenResponseSpec)
             .extract()
@@ -117,9 +121,9 @@ public class BookingApiClient {
     @Step("Удаление бронирования")
     public void deleteBooking(String token, int id) {
         given(bookingRequestSpec)
-            .header("Cookie", "token=" + token)
+            .cookie(TOKEN_COOKIE, token)
             .when()
-            .delete("/booking/{id}", id)
+            .delete(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(deleteBookingResponseSpec);
     }
@@ -128,7 +132,7 @@ public class BookingApiClient {
     public String deleteBookingWithoutToken(int id) {
         return given(bookingRequestSpec)
             .when()
-            .delete("/booking/{id}", id)
+            .delete(BOOKING_BY_ID_PATH, id)
             .then()
             .spec(bookingForbiddenResponseSpec)
             .extract()

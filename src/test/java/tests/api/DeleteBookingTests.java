@@ -9,13 +9,13 @@ import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 import static tests.api.TestData.*;
 
-@DisplayName("API restful-booker: Удаление бронирования. Метод DELETE")
+@DisplayName("API restful-booker: удаление бронирования. Метод DELETE")
 public class DeleteBookingTests extends TestBase {
 
     @Test
     @DisplayName("DELETE: удаление бронирования (позитивный сценарий, 201)")
     public void deleteBookingTest() {
-        CreateBookingResponseModel createdBooking = api.booking.createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
         String token = api.auth.createToken(new AuthRequestModel(ADMIN_USERNAME, ADMIN_PASSWORD));
 
         api.booking.deleteBooking(token, createdBooking.bookingid());
@@ -30,7 +30,7 @@ public class DeleteBookingTests extends TestBase {
     @Test
     @DisplayName("DELETE: удаление бронирования без авторизации (ошибка, 403)")
     public void deleteBookingWithoutTokenTest() {
-        CreateBookingResponseModel createdBooking = api.booking.createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
 
         String response = api.booking.deleteBookingWithoutToken(createdBooking.bookingid());
 
