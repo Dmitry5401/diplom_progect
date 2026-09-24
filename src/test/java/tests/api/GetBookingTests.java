@@ -10,13 +10,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static tests.api.TestData.NONEXISTENT_BOOKING_ID;
 import static tests.api.TestData.NOT_FOUND_BODY;
 
-@DisplayName("API restful-booker: Получение бронирования по idю Метод GET")
+@DisplayName("API restful-booker: получение бронирования по id. Метод GET")
 public class GetBookingTests extends TestBase {
 
     @Test
     @DisplayName("GET: получение бронирования по id (позитивный сценарий, 200)")
     public void getBookingByIdTest() {
-        CreateBookingResponseModel createdBooking = api.booking.createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
         BookingModel expected = createdBooking.booking();
 
         BookingModel response = api.booking.getBooking(createdBooking.bookingid());
