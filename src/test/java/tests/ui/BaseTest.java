@@ -82,7 +82,8 @@ public class BaseTest {
 
     protected void deleteRoomViaApi(int roomId) {
         api.rooms.deleteRoom(adminToken(), roomId);
-        createdRoomIds.remove(Integer.valueOf(roomId));
+        // removeIf(...) удаляет по значению; remove(int) удалил бы по индексу
+        createdRoomIds.removeIf(id -> id == roomId);
     }
 
     private String adminToken() {
