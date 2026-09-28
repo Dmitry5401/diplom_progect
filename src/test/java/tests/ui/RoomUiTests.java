@@ -4,41 +4,56 @@ import io.qameta.allure.Feature;
 import models.platform.RoomRequestModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ui.pages.ReservationPage;
 
 import static io.qameta.allure.Allure.step;
 
 @Feature("UI: отображение комнат на automationintesting.online")
 @DisplayName("UI automationintesting.online: страница комнаты")
-public class RoomUiTests extends TestBaseUi {
+public class RoomUiTests extends BaseTest {
 
-    private final ReservationPage reservationPage = new ReservationPage();
+    private RoomRequestModel room;
+    private int roomId;
 
     @Test
     @DisplayName("Созданная через API комната корректно отображается на странице бронирования")
-    public void createdRoomIsDisplayedTest() {
-        RoomRequestModel room = newRoomBody();
+    void createdRoomIsDisplayed() {
 
-        int roomId = createRoomViaApi(room);
+        step("Пре-условие через API: создать комнату", () -> {
+            room = data.roomToCreate();
+            roomId = createRoomViaApi(room);
+        });
 
-        reservationPage.openReservation(roomId)
-            .checkRoomDisplayed(room.type(), room.roomPrice(), room.description())
-            .checkFeatures("WiFi", "TV");
+        step("Открыть страницу бронирования комнаты", () -> {
+            reservationPage.openReservation(roomId);
+        });
+
+        step("Проверить, что комната корректно отображается в UI", () -> {
+            reservationPage.checkRoomDisplayed(room.type(), room.roomPrice(), room.description());
+            reservationPage.checkFeatures("WiFi", "TV");
+        });
     }
 
     @Test
     @DisplayName("Удалённая через API комната больше не отображается в UI")
-    public void deletedRoomIsNotDisplayedTest() {
-        RoomRequestModel room = newRoomBody();
-        int roomId = createRoomViaApi(room);
+    void deletedRoomIsNotDisplayed() {
 
-        reservationPage.openReservation(roomId)
-            .checkRoomDisplayed(room.type(), room.roomPrice(), room.description());
+        step("Пре-условие через API: создать комнату", () -> {
+            room = data.roomToCreate();
+            roomId = createRoomViaApi(room);
+        });
 
-        deleteRoomViaApi(roomId);
+        step("Проверить, что комната отображается в UI", () -> {
+            reservationPage.openReservation(roomId);
+            reservationPage.checkRoomDisplayed(room.type(), room.roomPrice(), room.description());
+        });
 
-        step("Повторное открытие страницы удалённой комнаты", () ->
-            reservationPage.openReservation(roomId)
-                .checkRoomNotDisplayed(room.description()));
+        step("Пост-условие через API: удалить комнату (DELETE)", () -> {
+            deleteRoomViaApi(roomId);
+        });
+
+        step("Проверить, что комната больше не отображается в UI", () -> {
+            reservationPage.openReservation(roomId);
+            reservationPage.checkRoomNotDisplayed(room.description());
+        });
     }
 }
