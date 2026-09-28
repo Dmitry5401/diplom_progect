@@ -27,12 +27,46 @@ Java + Gradle + JUnit 5 + REST Assured + Allure. Структура раздел
 Созданные в тестах бронирования удаляются в `@AfterEach`, чтобы не оставлять мусор
 на сервере.
 
+## UI-тесты (automationintesting.online)
+
+UI-тесты для [Restful Booker Platform](https://automationintesting.online/) построены по
+схеме «пре-условия и очистка через API, проверка через браузер»:
+
+1. **Pre-conditions (API)** — авторизация в админке (`POST /api/auth/login`) и создание
+   комнаты (`POST /api/room`) готовыми API-запросами.
+2. **Проверка (UI)** — Selenide открывает страницу комнаты и проверяет, что созданная
+   комната корректно отображается (тип, цена, описание, удобства).
+3. **Post-conditions (API)** — созданные комнаты удаляются в `@AfterEach`
+   через `DELETE /api/room/{id}`, чтобы не засорять базу.
+
+| Сценарий | Проверка |
+| --- | --- |
+| Созданная через API комната | корректно отображается на странице бронирования |
+| Удалённая через API комната | больше не отображается в UI |
+
+UI-часть сделана в стиле проекта
+[qa_guru_course_ui](https://github.com/Dmitry5401/qa_guru_course_ui): Selenide + Page
+Objects (`pages`), `helpers/Attach` для вложений Allure (скриншот, page source, логи
+консоли, видео), конфигурация браузера через системные свойства и поддержка удалённого
+запуска (Selenoid).
+
+Управление запуском (по умолчанию — локальный Chrome):
+
+```bash
+./gradlew test -Dheadless=true                 # без окна браузера
+./gradlew test -DbrowserSize=1920x1080         # размер окна
+./gradlew test -DremoteUrl=https://selenoid... # запуск в Selenoid (видео в отчёте)
+```
+
+Адрес платформы для API переопределяется `-DplatformUrl=...`, учётные данные админки —
+`-DadminUsername=... -DadminPassword=...`.
+
 ## Стек
 
 - Java 21
 - Gradle 8.13 (в репозитории есть wrapper — `./gradlew`)
 - JUnit 5, REST Assured, JSON Schema Validator
-- Allure, Datafaker, AssertJ
+- Selenide (UI), Allure, Datafaker, AssertJ
 
 ## Запуск тестов
 
@@ -64,12 +98,18 @@ Java + Gradle + JUnit 5 + REST Assured + Allure. Структура раздел
 
 ```
 src/test/java
-├── api        # клиенты API (AuthApiClient, BookingApiClient)
-├── allure     # кастомный listener для вложений Allure
-├── models     # request/response модели (records)
-├── specs      # request/response спецификации REST Assured
-└── tests      # тест-классы и тестовые данные
+├── api                 # клиенты restful-booker (AuthApiClient, BookingApiClient)
+│   └── platform        # клиенты automationintesting (PlatformAuthApi, PlatformRoomApi)
+├── allure              # кастомный listener для вложений Allure (API)
+├── helpers             # Attach — вложения Allure для UI (скриншоты, видео, логи)
+├── models              # request/response модели (records), в т.ч. models/platform
+├── pages               # Page Objects (Selenide)
+├── specs               # спецификации REST Assured, в т.ч. specs/platform
+└── tests
+    ├── api             # API-тесты restful-booker
+    └── ui              # UI-тесты automationintesting.online (+ testdata)
 src/test/resources
-├── schemas    # JSON-схемы ответов
-└── tpl        # шаблоны вложений Allure
+├── schemas             # JSON-схемы ответов
+├── tpl                 # шаблоны вложений Allure
+└── allure.properties   # каталог результатов Allure
 ```
