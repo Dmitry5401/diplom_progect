@@ -12,7 +12,11 @@
 - [Технологии и инструменты](#tools)
 - [Список проверок, реализованных в тестах](#cases)
 - [Запуск тестов из терминала](#run)
+- [Сборка в GitHub Actions](#ci)
 - [Allure-отчёт](#allure)
+- [Интеграция с Allure TestOps](#testops)
+- [Интеграция с Jira](#jira)
+- [Уведомление в Telegram](#telegram)
 - [Демонстрация UI-теста](#ui-demo)
 
 <a id="tools"></a>
@@ -92,6 +96,28 @@ UI-часть выполнена по образцу проекта
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+<a id="ci"></a>
+## <img alt="GitHub Actions" height="25" src="images/logo/GitHub.png" width="25"/> Сборка в GitHub Actions
+
+Тесты запускаются в [GitHub Actions](../../actions) на каждый push и pull request в `main`,
+а также вручную (workflow `Tests`, кнопка **Run workflow**). Конфигурация — в
+[`.github/workflows/tests.yml`](.github/workflows/tests.yml). Результаты (`allure-results`
+и HTML-отчёт) сохраняются как артефакты сборки.
+
+### Параметры запуска (Run workflow)
+
+- `browser` — браузер (по умолчанию `chrome`);
+- `browserVersion` — версия браузера (по умолчанию последняя);
+- `browserSize` — размер окна браузера (по умолчанию `1920x1080`);
+- `headless` — запуск без окна браузера (по умолчанию `true`).
+
+<!-- СКРИНШОТ ДОБАВИТЬ: успешный прогон во вкладке Actions. Сохранить как images/screen/github-actions.png -->
+<p align="center">
+<img title="GitHub Actions" src="images/screen/github-actions.png" width="850">
+</p>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 <a id="allure"></a>
 ## <img alt="Allure" height="25" src="images/logo/Allure.svg" width="25"/> Allure-отчёт
 
@@ -116,6 +142,59 @@ UI-часть выполнена по образцу проекта
 <!-- СКРИНШОТ ДОБАВИТЬ: список тестов в Allure (Suites/Behaviors). Сохранить как images/screen/allure-testcases.png -->
 <p align="center">
 <img title="Allure Test Cases" src="images/screen/allure-testcases.png" width="850">
+</p>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+<a id="testops"></a>
+## <img alt="Allure TestOps" height="25" src="images/logo/Allure_TO.svg" width="25"/> Интеграция с Allure TestOps
+
+Проект может быть подключён к [Allure TestOps](https://qameta.io/): автоматические прогоны
+загружаются как launch'и, тест-кейсы синхронизируются с кодом.
+_Интеграция настраивается через токен и endpoint TestOps; после подключения добавьте скриншоты._
+
+### Allure TestOps Dashboard
+
+<!-- СКРИНШОТ ДОБАВИТЬ: дашборд Allure TestOps. Сохранить как images/screen/allure-testops-dashboard.png -->
+<p align="center">
+<img title="Allure TestOps Dashboard" src="images/screen/allure-testops-dashboard.png" width="850">
+</p>
+
+### Авто и ручные тест-кейсы
+
+<!-- СКРИНШОТ ДОБАВИТЬ: список тест-кейсов в TestOps. Сохранить как images/screen/allure-testops-testcases.png -->
+<p align="center">
+<img title="Allure TestOps Test Cases" src="images/screen/allure-testops-testcases.png" width="850">
+</p>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+<a id="jira"></a>
+## <img alt="Jira" height="25" src="images/logo/Jira.svg" width="25"/> Интеграция с Jira
+
+Тест-кейсы и запуски связываются с задачами в [Jira](https://www.atlassian.com/software/jira),
+что позволяет видеть статус автоматизации прямо в тикете.
+_После настройки интеграции добавьте скриншот связанной задачи._
+
+<!-- СКРИНШОТ ДОБАВИТЬ: задача Jira со связанными тестами/запусками. Сохранить как images/screen/jira.png -->
+<p align="center">
+<img title="Jira" src="images/screen/jira.png" width="850">
+</p>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+____
+<a id="telegram"></a>
+## <img alt="Telegram" height="25" src="images/logo/Telegram.svg" width="25"/> Уведомление в Telegram
+____
+
+По завершении прогона бот присылает в [Telegram](https://web.telegram.org/) сводку с
+результатами и ссылкой на Allure-отчёт.
+_После подключения бота добавьте скриншот уведомления._
+
+<!-- СКРИНШОТ ДОБАВИТЬ: сообщение бота с результатами прогона. Сохранить как images/screen/telegram.png -->
+<p align="center">
+<img title="Telegram" src="images/screen/telegram.png" width="550">
 </p>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
