@@ -38,8 +38,21 @@ UI-тесты для [Restful Booker Platform](https://automationintesting.onlin
 | Созданная через API комната | корректно отображается на странице бронирования |
 | Удалённая через API комната | больше не отображается в UI |
 
-Тесты идут в headless-режиме. Запуск с видимым браузером: `./gradlew test -Dheadless=false`.
-Адрес платформы переопределяется `-DplatformUrl=...`, учётные данные админки —
+UI-часть сделана в стиле проекта
+[qa_guru_course_ui](https://github.com/Dmitry5401/qa_guru_course_ui): Selenide + Page
+Objects (`pages`), `helpers/Attach` для вложений Allure (скриншот, page source, логи
+консоли, видео), конфигурация браузера через системные свойства и поддержка удалённого
+запуска (Selenoid).
+
+Управление запуском (по умолчанию — локальный Chrome):
+
+```bash
+./gradlew test -Dheadless=true                 # без окна браузера
+./gradlew test -DbrowserSize=1920x1080         # размер окна
+./gradlew test -DremoteUrl=https://selenoid... # запуск в Selenoid (видео в отчёте)
+```
+
+Адрес платформы для API переопределяется `-DplatformUrl=...`, учётные данные админки —
 `-DadminUsername=... -DadminPassword=...`.
 
 ## Стек
@@ -75,14 +88,16 @@ UI-тесты для [Restful Booker Platform](https://automationintesting.onlin
 src/test/java
 ├── api                 # клиенты restful-booker (AuthApiClient, BookingApiClient)
 │   └── platform        # клиенты automationintesting (PlatformAuthApi, PlatformRoomApi)
-├── allure              # кастомный listener для вложений Allure
+├── allure              # кастомный listener для вложений Allure (API)
+├── helpers             # Attach — вложения Allure для UI (скриншоты, видео, логи)
 ├── models              # request/response модели (records), в т.ч. models/platform
+├── pages               # Page Objects (Selenide)
 ├── specs               # спецификации REST Assured, в т.ч. specs/platform
-├── ui/pages            # Page Objects (Selenide)
 └── tests
     ├── api             # API-тесты restful-booker
-    └── ui              # UI-тесты automationintesting.online
+    └── ui              # UI-тесты automationintesting.online (+ testdata)
 src/test/resources
 ├── schemas             # JSON-схемы ответов
-└── tpl                 # шаблоны вложений Allure
+├── tpl                 # шаблоны вложений Allure
+└── allure.properties   # каталог результатов Allure
 ```
