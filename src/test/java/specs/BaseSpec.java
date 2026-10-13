@@ -8,8 +8,6 @@ import static io.restassured.http.ContentType.JSON;
 
 public class BaseSpec {
 
-    // restful-booker отвечает "418 I'm a teapot", если Accept не равен строго
-    // application/json, поэтому задаём заголовок явно, а не через ContentType.JSON.
     public static RequestSpecification baseRequestSpec = with()
         .filter(withCustomTemplate())
         .log().all()
