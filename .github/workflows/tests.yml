@@ -1,4 +1,4 @@
-name: API tests
+name: Tests
 
 on:
   push:
@@ -6,6 +6,19 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Browser'
+        default: 'chrome'
+      browserVersion:
+        description: 'Browser version (empty = latest)'
+        default: ''
+      browserSize:
+        description: 'Browser window size'
+        default: '1920x1080'
+      headless:
+        description: 'Run browser headless'
+        default: 'true'
 
 jobs:
   test:
@@ -23,7 +36,12 @@ jobs:
           cache: gradle
 
       - name: Run tests
-        run: ./gradlew test
+        run: >
+          ./gradlew clean test
+          -Dbrowser=${{ github.event.inputs.browser || 'chrome' }}
+          -DbrowserVersion=${{ github.event.inputs.browserVersion || '' }}
+          -DbrowserSize=${{ github.event.inputs.browserSize || '1920x1080' }}
+          -Dheadless=${{ github.event.inputs.headless || 'true' }}
 
       - name: Upload Allure results
         if: always()
