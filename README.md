@@ -12,6 +12,7 @@
 - [Технологии и инструменты](#tools)
 - [Список проверок, реализованных в тестах](#cases)
 - [Запуск тестов из терминала](#run)
+- [Прогон API-тестов в Jenkins](#jenkins)
 - [Сборка в GitHub Actions](#ci)
 - [Allure-отчёт](#allure)
 - [Интеграция с Allure TestOps](#testops)
@@ -22,9 +23,9 @@
 <a id="tools"></a>
 ## :ballot_box_with_check: Технологии и инструменты:
 
-| Java | IntelliJ IDEA | GitHub | JUnit 5 | Gradle | REST Assured | Selenide | Selenoid | Allure |
-|:----:|:-------------:|:------:|:-------:|:------:|:------------:|:--------:|:--------:|:------:|
-| <a href="https://www.java.com/"><img src="images/logo/Java.svg" width="50" height="50" alt="Java"/></a> | <a href="https://www.jetbrains.com/idea/"><img src="images/logo/Idea.svg" width="50" height="50" alt="IDEA"/></a> | <a href="https://github.com/"><img src="images/logo/GitHub.png" width="50" height="50" alt="GitHub"/></a> | <a href="https://junit.org/junit5/"><img src="images/logo/Junit5.svg" width="50" height="50" alt="JUnit 5"/></a> | <a href="https://gradle.org/"><img src="images/logo/Gradle.png" width="50" height="50" alt="Gradle"/></a> | <a href="https://rest-assured.io/"><img src="https://img.shields.io/badge/REST-Assured-2ea44f?style=for-the-badge" height="34" alt="REST Assured"/></a> | <a href="https://selenide.org/"><img src="images/logo/Selenide.svg" width="50" height="50" alt="Selenide"/></a> | <a href="https://aerokube.com/selenoid/"><img src="images/logo/Selenoid.svg" width="50" height="50" alt="Selenoid"/></a> | <a href="https://github.com/allure-framework"><img src="images/logo/Allure.svg" width="50" height="50" alt="Allure"/></a> |
+| Java | IntelliJ IDEA | GitHub | JUnit 5 | Gradle | REST Assured | Selenide | Selenoid | Allure | Jenkins | Allure TestOps | Jira | Telegram |
+|:----:|:-------------:|:------:|:-------:|:------:|:------------:|:--------:|:--------:|:------:|:-------:|:--------------:|:----:|:--------:|
+| <a href="https://www.java.com/"><img src="images/logo/Java.svg" width="50" height="50" alt="Java"/></a> | <a href="https://www.jetbrains.com/idea/"><img src="images/logo/Idea.svg" width="50" height="50" alt="IDEA"/></a> | <a href="https://github.com/"><img src="images/logo/GitHub.png" width="50" height="50" alt="GitHub"/></a> | <a href="https://junit.org/junit5/"><img src="images/logo/Junit5.svg" width="50" height="50" alt="JUnit 5"/></a> | <a href="https://gradle.org/"><img src="images/logo/Gradle.png" width="50" height="50" alt="Gradle"/></a> | <a href="https://rest-assured.io/"><img src="https://img.shields.io/badge/REST-Assured-2ea44f?style=for-the-badge" height="34" alt="REST Assured"/></a> | <a href="https://selenide.org/"><img src="images/logo/Selenide.svg" width="50" height="50" alt="Selenide"/></a> | <a href="https://aerokube.com/selenoid/"><img src="images/logo/Selenoid.svg" width="50" height="50" alt="Selenoid"/></a> | <a href="https://github.com/allure-framework"><img src="images/logo/Allure.svg" width="50" height="50" alt="Allure"/></a> | <a href="https://www.jenkins.io/"><img src="images/logo/Jenkins.svg" width="50" height="50" alt="Jenkins"/></a> | <a href="https://qameta.io/"><img src="images/logo/Allure_TO.svg" width="50" height="50" alt="Allure TestOps"/></a> | <a href="https://www.atlassian.com/software/jira"><img src="images/logo/Jira.svg" width="50" height="50" alt="Jira"/></a> | <a href="https://web.telegram.org/"><img src="images/logo/Telegram.svg" width="50" height="50" alt="Telegram"/></a> |
 
 Тесты написаны на языке <code>Java</code>, сборщик — <code>Gradle</code>, в качестве фреймворка
 модульного тестирования используется <code>JUnit 5</code>. API-тесты построены на
@@ -32,6 +33,10 @@
 [Selenide](https://selenide.org/). Для генерации тестовых данных применяется <code>Datafaker</code>,
 для проверок — <code>AssertJ</code>, отчётность — <code>Allure</code>. UI-тесты можно запускать
 удалённо в [Selenoid](https://aerokube.com/selenoid/) (тогда в отчёт попадает видео прогона).
+Прогон API-тестов публикуется из [Jenkins](https://www.jenkins.io/): Allure-отчёт, запуск в
+[Allure TestOps](https://qameta.io/), связь тест-кейсов с задачей в
+[Jira](https://www.atlassian.com/software/jira) и уведомление в
+[Telegram](https://web.telegram.org/).
 
 UI-часть выполнена по образцу проекта
 [qa_guru_course_ui](https://github.com/Dmitry5401/qa_guru_course_ui): Page Objects (`pages`),
@@ -96,6 +101,20 @@ UI-часть выполнена по образцу проекта
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+<a id="jenkins"></a>
+## <img alt="Jenkins" height="25" src="images/logo/Jenkins.svg" width="25"/> Прогон API-тестов в Jenkins
+
+API-тесты Restful Booker запускаются джобой
+[kdp029_diplom](https://jenkins.qa.guru/job/kdp029_diplom/) в Jenkins.
+После сборки публикуется Allure-отчёт: 12 сценариев (авторизация и CRUD бронирования),
+исполнитель сборки — Jenkins.
+
+<p align="center">
+<img title="Allure-отчёт прогона API-тестов в Jenkins" src="images/screen/Jankins1.png" width="850" alt="Прогон API-тестов в Jenkins: 12 тестов, 100%">
+</p>
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 <a id="ci"></a>
 ## <img alt="GitHub Actions" height="25" src="images/logo/GitHub.png" width="25"/> Сборка в GitHub Actions
 
@@ -111,11 +130,6 @@ UI-часть выполнена по образцу проекта
 - `browserSize` — размер окна браузера (по умолчанию `1920x1080`);
 - `headless` — запуск без окна браузера (по умолчанию `true`).
 
-<!-- СКРИНШОТ ДОБАВИТЬ: успешный прогон во вкладке Actions. Сохранить как images/screen/github-actions.png -->
-<p align="center">
-<img title="GitHub Actions" src="images/screen/github-actions.png" width="850">
-</p>
-
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 <a id="allure"></a>
@@ -130,41 +144,27 @@ UI-часть выполнена по образцу проекта
 ./gradlew allureReport   # статический отчёт в build/reports/allure-report
 ```
 
-### Основная страница отчёта
-
-<!-- СКРИНШОТ ДОБАВИТЬ: главная страница Allure (Overview). Сохранить как images/screen/allure-overview.png -->
-<p align="center">
-<img title="Allure Overview" src="images/screen/allure-overview.png" width="850">
-</p>
-
-### Тест-кейсы
-
-<!-- СКРИНШОТ ДОБАВИТЬ: список тестов в Allure (Suites/Behaviors). Сохранить как images/screen/allure-testcases.png -->
-<p align="center">
-<img title="Allure Test Cases" src="images/screen/allure-testcases.png" width="850">
-</p>
+Опубликованный отчёт прогона API-тестов — в разделе [Jenkins](#jenkins).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 <a id="testops"></a>
 ## <img alt="Allure TestOps" height="25" src="images/logo/Allure_TO.svg" width="25"/> Интеграция с Allure TestOps
 
-Проект может быть подключён к [Allure TestOps](https://qameta.io/): автоматические прогоны
-загружаются как launch'и, тест-кейсы синхронизируются с кодом.
-_Интеграция настраивается через токен и endpoint TestOps; после подключения добавьте скриншоты._
+Прогоны API-тестов загружаются в проект Allure TestOps `kdp029_diplom_testops`.
+На дашборде — 12 автоматизированных тестов (100%). Тест-кейсы сгруппированы по методам
+Restful Booker: авторизация, создание, получение, обновление и удаление бронирования.
 
-### Allure TestOps Dashboard
+### Дашборд
 
-<!-- СКРИНШОТ ДОБАВИТЬ: дашборд Allure TestOps. Сохранить как images/screen/allure-testops-dashboard.png -->
 <p align="center">
-<img title="Allure TestOps Dashboard" src="images/screen/allure-testops-dashboard.png" width="850">
+<img title="Дашборд Allure TestOps" src="images/screen/testOpsDash.png" width="850" alt="Дашборд TestOps: 12 автотестов, 100%">
 </p>
 
-### Авто и ручные тест-кейсы
+### Тест-кейсы
 
-<!-- СКРИНШОТ ДОБАВИТЬ: список тест-кейсов в TestOps. Сохранить как images/screen/allure-testops-testcases.png -->
 <p align="center">
-<img title="Allure TestOps Test Cases" src="images/screen/allure-testops-testcases.png" width="850">
+<img title="Тест-кейсы Allure TestOps" src="images/screen/TestOpsTestCaases.png" width="850" alt="Тест-кейсы API в TestOps">
 </p>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
@@ -172,13 +172,12 @@ _Интеграция настраивается через токен и endpoi
 <a id="jira"></a>
 ## <img alt="Jira" height="25" src="images/logo/Jira.svg" width="25"/> Интеграция с Jira
 
-Тест-кейсы и запуски связываются с задачами в [Jira](https://www.atlassian.com/software/jira),
-что позволяет видеть статус автоматизации прямо в тикете.
-_После настройки интеграции добавьте скриншот связанной задачи._
+Задача **MUL-55** «Разработка автотестов API CRUD для бронирования в Restful Booker (Booking)»
+связана с тест-кейсами TestOps: в тикете, в блоке TestOps, видны сценарии методов
+`POST /auth`, `GET`, `POST`, `PUT`, `PATCH` и `DELETE /booking`.
 
-<!-- СКРИНШОТ ДОБАВИТЬ: задача Jira со связанными тестами/запусками. Сохранить как images/screen/jira.png -->
 <p align="center">
-<img title="Jira" src="images/screen/jira.png" width="850">
+<img title="Задача Jira MUL-55 со связанными тест-кейсами" src="images/screen/Jira.png" width="850" alt="Jira: задача MUL-55 и артефакты тестов TestOps">
 </p>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
@@ -188,13 +187,11 @@ ____
 ## <img alt="Telegram" height="25" src="images/logo/Telegram.svg" width="25"/> Уведомление в Telegram
 ____
 
-По завершении прогона бот присылает в [Telegram](https://web.telegram.org/) сводку с
-результатами и ссылкой на Allure-отчёт.
-_После подключения бота добавьте скриншот уведомления._
+По завершении прогона бот присылает в [Telegram](https://web.telegram.org/) сводку:
+окружение DEV, 12 из 12 успешных сценариев и ссылку на Allure-отчёт Jenkins.
 
-<!-- СКРИНШОТ ДОБАВИТЬ: сообщение бота с результатами прогона. Сохранить как images/screen/telegram.png -->
 <p align="center">
-<img title="Telegram" src="images/screen/telegram.png" width="550">
+<img title="Уведомление Telegram о прогоне API-тестов" src="images/screen/Telrgramm1.png" width="550" alt="Telegram: 12 успешных API-тестов">
 </p>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
