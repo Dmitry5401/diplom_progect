@@ -40,8 +40,6 @@
 [Jira](https://www.atlassian.com/software/jira) и уведомление в
 [Telegram](https://web.telegram.org/).
 
-UI-тесты собраны по тому же принципу, что и в проекте
-[qa_guru_course_ui](https://github.com/Dmitry5401/qa_guru_course_ui).
 Страница бронирования описана отдельным классом в пакете `pages` (паттерн Page Object):
 тест вызывает его методы, чтобы открыть страницу и проверить комнату.
 Класс `helpers/Attach` после прогона добавляет в отчёт Allure скриншот, код страницы,
