@@ -10,6 +10,8 @@
 ## ☑️ Содержание:
 
 - [Технологии и инструменты](#tools)
+- [Архитектура и Best Practices](#architecture)
+- [Структура проекта](#structure)
 - [Список проверок, реализованных в тестах](#cases)
 - [Запуск тестов из терминала](#run)
 - [Прогон API-тестов в Jenkins](#jenkins)
@@ -41,6 +43,84 @@
 UI-часть выполнена по образцу проекта
 [qa_guru_course_ui](https://github.com/Dmitry5401/qa_guru_course_ui): Page Objects (`pages`),
 `helpers/Attach` для вложений Allure, конфигурация браузера через системные свойства.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+<a id="architecture"></a>
+## :ballot_box_with_check: Архитектура и Best Practices
+
+Тест описывает сценарий. HTTP-запрос, локаторы и вложения отчёта вынесены в отдельные слои.
+
+### 1. API-клиенты отдельно от тестов
+
+Вызовы Restful Booker собраны в `AuthApiClient` и `BookingApiClient`, доступ к ним даёт `ApiClient`.
+Админка платформы для UI-тестов живёт отдельно: `PlatformApiClient`, `PlatformAuthApi`, `PlatformRoomApi`.
+Методы клиентов размечены `@Step`, поэтому в Allure виден шаг запроса.
+
+### 2. Спецификации и модели
+
+Код ответа, JSON-схема и обязательные поля описаны в `specs` (`AuthSpec`, `BookingSpec`, `PlatformSpec`).
+Тела запросов и ответов — Java records в `models`. Схемы лежат в `src/test/resources/schemas`.
+
+### 3. Page Object для UI
+
+Локаторы и проверки страницы бронирования находятся в `ReservationPage`.
+Тест вызывает `openReservation`, `checkRoomDisplayed` и `checkRoomNotDisplayed` и не ищет элементы сам.
+
+### 4. Данные готовятся через API и удаляются после теста
+
+UI-тест создаёт комнату через API, проверяет её в браузере и удаляет комнату в `@AfterEach`.
+API-тесты запоминают id созданных бронирований и удаляют их после теста.
+
+### 5. Тестовые данные
+
+Постоянные значения (логин, неверный пароль, тексты ошибок) лежат в `TestData`.
+Имя, фамилию, цену и удобства генерирует Datafaker, чтобы тесты не зависели от заранее созданных записей.
+
+### 6. Отчёт Allure
+
+`CustomAllureListener` подключает шаблоны `request.ftl` и `response.ftl` к каждому API-запросу.
+Для UI `helpers/Attach` прикладывает скриншот, page source, логи браузера и видео прогона в Selenoid.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+<a id="structure"></a>
+## :ballot_box_with_check: Структура проекта
+
+```text
+src/test
+├── java
+│   ├── allure
+│   │   └── CustomAllureListener          # шаблоны request/response в отчёте Allure
+│   ├── api
+│   │   ├── ApiClient                     # фасад Restful Booker: auth + booking
+│   │   ├── AuthApiClient                 # POST /auth
+│   │   ├── BookingApiClient              # CRUD /booking
+│   │   └── platform
+│   │       ├── PlatformApiClient         # фасад админки automationintesting.online
+│   │       ├── PlatformAuthApi           # логин администратора
+│   │       └── PlatformRoomApi           # создание, поиск и удаление комнат
+│   ├── helpers
+│   │   └── Attach                        # скриншот, page source, логи браузера, видео
+│   ├── models
+│   │   ├── auth                          # тело и ответ POST /auth
+│   │   ├── booking                       # бронирование, даты, ответ создания, PATCH
+│   │   └── platform                      # логин и комнаты платформы
+│   ├── pages
+│   │   └── ReservationPage               # страница бронирования комнаты
+│   ├── specs
+│   │   ├── BaseSpec                      # общий request spec и фильтр Allure
+│   │   ├── auth/AuthSpec                 # 200 и схема токена, Bad credentials
+│   │   ├── booking/BookingSpec           # коды и схемы CRUD бронирования
+│   │   └── platform/PlatformSpec         # запросы к /api платформы
+│   └── tests
+│       ├── api                           # 12 тестов Restful Booker, TestBase, TestData
+│       └── ui                            # RoomUiTests, BaseTest, testdata/TestData
+└── resources
+    ├── allure.properties
+    ├── schemas                           # JSON-схемы auth и booking
+    └── tpl                               # request.ftl, response.ftl
+```
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
