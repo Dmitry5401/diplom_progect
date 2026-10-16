@@ -40,12 +40,6 @@
 [Jira](https://www.atlassian.com/software/jira) и уведомление в
 [Telegram](https://web.telegram.org/).
 
-Страница бронирования описана отдельным классом в пакете `pages` (паттерн Page Object):
-тест вызывает его методы, чтобы открыть страницу и проверить комнату.
-Класс `helpers/Attach` после прогона добавляет в отчёт Allure скриншот, код страницы,
-логи браузера и видео. Браузер, размер окна, запуск без окна и адрес Selenoid задаются
-при старте параметрами `-Dbrowser`, `-DbrowserSize`, `-Dheadless` и `-DremoteUrl`.
-
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 <a id="architecture"></a>
@@ -66,8 +60,12 @@
 
 ### 3. Page Object для UI
 
-Локаторы и проверки страницы бронирования находятся в `ReservationPage`.
-Тест вызывает `openReservation`, `checkRoomDisplayed` и `checkRoomNotDisplayed` и не ищет элементы сам.
+Страница бронирования описана отдельным классом в пакете `pages` (паттерн Page Object):
+тест вызывает его методы, чтобы открыть страницу и проверить комнату
+(`openReservation`, `checkRoomDisplayed`, `checkRoomNotDisplayed`).
+Класс `helpers/Attach` после прогона добавляет в отчёт Allure скриншот, код страницы,
+логи браузера и видео. Браузер, размер окна, запуск без окна и адрес Selenoid задаются
+при старте параметрами `-Dbrowser`, `-DbrowserSize`, `-Dheadless` и `-DremoteUrl`.
 
 ### 4. Данные готовятся через API и удаляются после теста
 
