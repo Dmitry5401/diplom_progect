@@ -13,8 +13,6 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class ReservationPage {
 
-    private static final String CHECKIN = "2026-10-01";
-    private static final String CHECKOUT = "2026-10-02";
     private static final Duration FORM_TIMEOUT = Duration.ofSeconds(10);
 
     private final SelenideElement
@@ -29,10 +27,6 @@ public class ReservationPage {
         guestPhone = $(".room-phone"),
         submitBooking = $(".booking-card button.btn-primary"),
         validationAlert = $(".alert-danger");
-
-    public void openReservation(int roomId) {
-        openReservation(roomId, CHECKIN, CHECKOUT);
-    }
 
     public void openReservation(int roomId, String checkin, String checkout) {
         open("/reservation/" + roomId + "?checkin=" + checkin + "&checkout=" + checkout);

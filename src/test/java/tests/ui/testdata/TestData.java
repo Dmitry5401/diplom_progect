@@ -11,6 +11,8 @@ public class TestData {
 
     public final String adminUsername = System.getProperty("adminUsername", "admin");
     public final String adminPassword = System.getProperty("adminPassword", "password");
+    public final String checkin = "2026-10-01";
+    public final String checkout = "2026-10-02";
 
     public RoomRequestModel roomToCreate() {
         String roomName = String.valueOf(faker.number().numberBetween(100000, 999999));
