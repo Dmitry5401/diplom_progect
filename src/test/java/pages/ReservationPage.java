@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
@@ -43,11 +44,20 @@ public class ReservationPage {
     }
 
     public void submitGuest(String firstname, String lastname, String email, String phone) {
-        firstName.setValue(firstname).shouldHave(value(firstname));
-        lastName.setValue(lastname).shouldHave(value(lastname));
-        guestEmail.setValue(email).shouldHave(value(email));
-        guestPhone.setValue(phone).shouldHave(value(phone));
+        fill(firstName, firstname);
+        fill(lastName, lastname);
+        fill(guestEmail, email);
+        fill(guestPhone, phone);
         submitBooking.click();
+    }
+
+    private void fill(SelenideElement field, String text) {
+        field.setValue(text);
+        if (text.isEmpty()) {
+            field.shouldBe(empty);
+        } else {
+            field.shouldHave(value(text));
+        }
     }
 
     public void checkValidationError(String error) {
