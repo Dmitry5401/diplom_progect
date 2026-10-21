@@ -24,7 +24,7 @@ public class RoomUiTests extends BaseTest {
         });
 
         step("Открыть страницу бронирования комнаты", () -> {
-            reservationPage.openReservation(roomId);
+            reservationPage.openReservation(roomId, data.checkin, data.checkout);
         });
 
         step("Проверить, что комната корректно отображается в UI", () -> {
@@ -43,7 +43,7 @@ public class RoomUiTests extends BaseTest {
         });
 
         step("Проверить, что комната отображается в UI", () -> {
-            reservationPage.openReservation(roomId);
+            reservationPage.openReservation(roomId, data.checkin, data.checkout);
             reservationPage.checkRoomDisplayed(room.type(), room.roomPrice(), room.description());
         });
 
@@ -52,7 +52,7 @@ public class RoomUiTests extends BaseTest {
         });
 
         step("Проверить, что комната больше не отображается в UI", () -> {
-            reservationPage.openReservation(roomId);
+            reservationPage.openReservation(roomId, data.checkin, data.checkout);
             reservationPage.checkRoomNotDisplayed(room.description());
         });
     }
