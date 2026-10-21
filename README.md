@@ -61,8 +61,9 @@
 ### 3. Page Object для UI
 
 Страница бронирования описана отдельным классом в пакете `pages` (паттерн Page Object):
-тест вызывает его методы, чтобы открыть страницу и проверить комнату
-(`openReservation`, `checkRoomDisplayed`, `checkRoomNotDisplayed`).
+тест вызывает его методы, чтобы открыть страницу, проверить комнату и отправить форму гостя
+(`openReservation`, `openBookingForm`, `submitGuest`, `checkValidationError`,
+`checkRoomDisplayed`, `checkRoomNotDisplayed`).
 Класс `helpers/Attach` после прогона добавляет в отчёт Allure скриншот, код страницы,
 логи браузера и видео. Браузер, размер окна, запуск без окна и адрес Selenoid задаются
 при старте параметрами `-Dbrowser`, `-DbrowserSize`, `-Dheadless` и `-DremoteUrl`.
@@ -115,7 +116,7 @@ src/test
 │   │   └── platform/PlatformSpec         # запросы к /api платформы
 │   └── tests
 │       ├── api                           # 12 тестов Restful Booker, TestBase, TestData
-│       └── ui                            # RoomUiTests, BaseTest, testdata/TestData
+│       └── ui                            # RoomUiTests, BookingFormTests, BaseTest, testdata/TestData
 └── resources
     ├── allure.properties
     ├── schemas                           # JSON-схемы auth и booking
@@ -141,7 +142,8 @@ src/test
 ### UI — Restful Booker Platform
 
 - Созданная через API комната корректно отображается на странице бронирования (тип, цена, описание, удобства);
-- Удалённая через API комната больше не отображается в UI.
+- Удалённая через API комната больше не отображается в UI;
+- `BookingFormTests`: форма бронирования показывает ошибку валидации для пустого имени, имени короче 3 символов, пустой фамилии, некорректного email и телефона короче 11 символов (заезд — сегодня плюс 7 дней, выезд — сегодня плюс 8 дней; комната создаётся через API и удаляется в `@AfterEach`).
 
 Схема UI-теста: **pre-conditions через API** (создание комнаты) → **проверка через браузер** →
 **post-conditions через API** (удаление комнаты в `@AfterEach`).
