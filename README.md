@@ -239,13 +239,13 @@ Restful Booker: авторизация, создание, получение, о
 ### Дашборд
 
 <p align="center">
-<img title="Дашборд Allure TestOps" src="images/screen/testOpsDash.png" width="850" alt="Дашборд TestOps: 12 автотестов, 100%">
+<img title="Дашборд Allure TestOps" src="images/screen/ApiDashboard.png" width="850" alt="Дашборд TestOps: 12 автотестов, 100%">
 </p>
 
 ### Тест-кейсы
 
 <p align="center">
-<img title="Тест-кейсы Allure TestOps" src="images/screen/TestOpsTestCaases.png" width="850" alt="Тест-кейсы API в TestOps">
+<img title="Тест-кейсы Allure TestOps" src="images/screen/AddManualTest.png" width="850" alt="Тест-кейсы API в TestOps">
 </p>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
