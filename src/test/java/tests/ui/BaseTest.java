@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static tests.ui.testdata.TestData.requireAdminPassword;
 
 public class BaseTest {
 
@@ -33,6 +34,7 @@ public class BaseTest {
 
     @BeforeAll
     public static void setUp() {
+        requireAdminPassword();
         Configuration.baseUrl =
             System.getProperty("baseUrl", "https://automationintesting.online");
         String remoteUrl = System.getProperty("remoteUrl");
