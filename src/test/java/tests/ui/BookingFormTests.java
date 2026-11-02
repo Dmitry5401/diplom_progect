@@ -1,6 +1,7 @@
 package tests.ui;
 
 import io.qameta.allure.Feature;
+import models.platform.RoomRequestModel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,7 +86,10 @@ public class BookingFormTests extends BaseTest {
         String checkout = LocalDate.now().plusDays(8).toString();
 
         step("Пре-условие через API: создать комнату", () -> {
-            roomId = createRoomViaApi(data.roomToCreate());
+            RoomRequestModel room = data.roomToCreate();
+            api.rooms.createRoom(adminToken(), room);
+            roomId = api.rooms.findRoomIdByName(room.roomName());
+            trackCreatedRoom(roomId);
         });
 
         step("Открыть страницу бронирования: заезд " + checkin + ", выезд " + checkout, () ->
