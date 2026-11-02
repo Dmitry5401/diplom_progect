@@ -62,10 +62,4 @@ public class PlatformRoomApi {
             .then()
             .spec(roomDeletedResponseSpec);
     }
-
-    @Step("Проверка через API, что комната с id {roomId} отсутствует")
-    public boolean roomExists(int roomId) {
-        return getRooms().rooms().stream()
-            .anyMatch(room -> room.roomid() == roomId);
-    }
 }
