@@ -101,7 +101,12 @@ public class BookingFormTests extends BaseTest {
         );
 
         step("Отправить данные гостя: " + caseName, () ->
-            reservationPage.submitGuest(firstname, lastname, email, phone)
+            reservationPage
+                .setFirstName(firstname)
+                .setLastName(lastname)
+                .setEmail(email)
+                .setPhone(phone)
+                .clickSubmit()
         );
 
         step("Проверить ошибку валидации", () ->

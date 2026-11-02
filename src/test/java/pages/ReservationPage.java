@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 
@@ -37,12 +38,34 @@ public class ReservationPage {
         firstName.shouldBe(visible);
     }
 
-    public void submitGuest(String firstname, String lastname, String email, String phone) {
+    @Step("Заполнить имя гостя: {firstname}")
+    public ReservationPage setFirstName(String firstname) {
         fill(firstName, firstname);
+        return this;
+    }
+
+    @Step("Заполнить фамилию гостя: {lastname}")
+    public ReservationPage setLastName(String lastname) {
         fill(lastName, lastname);
+        return this;
+    }
+
+    @Step("Заполнить email гостя: {email}")
+    public ReservationPage setEmail(String email) {
         fill(guestEmail, email);
+        return this;
+    }
+
+    @Step("Заполнить телефон гостя: {phone}")
+    public ReservationPage setPhone(String phone) {
         fill(guestPhone, phone);
+        return this;
+    }
+
+    @Step("Нажать кнопку бронирования")
+    public ReservationPage clickSubmit() {
         submitBooking.click();
+        return this;
     }
 
     private void fill(SelenideElement field, String text) {
