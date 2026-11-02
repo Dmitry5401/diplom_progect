@@ -7,7 +7,6 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import models.platform.LoginRequestModel;
-import models.platform.RoomRequestModel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,10 +73,8 @@ public class BaseTest {
         closeWebDriver();
     }
 
-    protected int createRoomViaApi(RoomRequestModel body) {
-        int roomId = api.rooms.createRoomAndGetId(adminToken(), body);
+    protected void trackCreatedRoom(int roomId) {
         createdRoomIds.add(roomId);
-        return roomId;
     }
 
     protected void deleteRoomViaApi(int roomId) {
@@ -86,7 +83,7 @@ public class BaseTest {
         createdRoomIds.removeIf(id -> id == roomId);
     }
 
-    private String adminToken() {
+    protected String adminToken() {
         if (token == null) {
             token = api.auth.login(new LoginRequestModel(data.adminUsername, data.adminPassword));
         }

@@ -47,12 +47,6 @@ public class PlatformRoomApi {
                 new AssertionError("Комната с названием '" + roomName + "' не найдена через API"));
     }
 
-    @Step("Создание комнаты и получение её id")
-    public int createRoomAndGetId(String token, RoomRequestModel body) {
-        createRoom(token, body);
-        return findRoomIdByName(body.roomName());
-    }
-
     @Step("Удаление комнаты через API по id: {roomId}")
     public void deleteRoom(String token, int roomId) {
         given(platformRequestSpec)

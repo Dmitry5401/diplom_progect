@@ -20,7 +20,9 @@ public class RoomUiTests extends BaseTest {
 
         step("Пре-условие через API: создать комнату", () -> {
             room = data.roomToCreate();
-            roomId = createRoomViaApi(room);
+            api.rooms.createRoom(adminToken(), room);
+            roomId = api.rooms.findRoomIdByName(room.roomName());
+            trackCreatedRoom(roomId);
         });
 
         step("Открыть страницу бронирования комнаты", () -> {
@@ -39,7 +41,9 @@ public class RoomUiTests extends BaseTest {
 
         step("Пре-условие через API: создать комнату", () -> {
             room = data.roomToCreate();
-            roomId = createRoomViaApi(room);
+            api.rooms.createRoom(adminToken(), room);
+            roomId = api.rooms.findRoomIdByName(room.roomName());
+            trackCreatedRoom(roomId);
         });
 
         step("Проверить, что комната отображается в UI", () -> {
