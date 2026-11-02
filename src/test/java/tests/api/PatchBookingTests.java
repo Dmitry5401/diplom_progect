@@ -17,10 +17,10 @@ public class PatchBookingTests extends TestBase {
     @Test
     @DisplayName("PATCH: частичное обновление бронирования (позитивный сценарий, 200)")
     public void patchBookingTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
         BookingModel original = createdBooking.booking();
         String token = api.auth.createToken(new AuthRequestModel(ADMIN_USERNAME, ADMIN_PASSWORD));
-        PatchBookingModel patchData = newPatchBody();
+        PatchBookingModel patchData = steps.newPatchBody();
 
         BookingModel response =
             api.booking.patchBooking(token, createdBooking.bookingid(), patchData);
@@ -38,8 +38,8 @@ public class PatchBookingTests extends TestBase {
     @Test
     @DisplayName("PATCH: частичное обновление без авторизации (ошибка, 403)")
     public void patchBookingWithoutTokenTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
-        PatchBookingModel patchData = newPatchBody();
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
+        PatchBookingModel patchData = steps.newPatchBody();
 
         String response =
             api.booking.patchBookingWithoutToken(createdBooking.bookingid(), patchData);

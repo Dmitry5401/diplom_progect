@@ -77,6 +77,7 @@ API-тесты запоминают id созданных бронировани
 ### 5. Тестовые данные
 
 Постоянные значения (логин, неверный пароль, тексты ошибок) лежат в `TestData`.
+Случайное тело бронирования и частичное обновление собирает `TestDataGenerationSteps`.
 Имя, фамилию, цену и удобства генерирует Datafaker, чтобы тесты не зависели от заранее созданных записей.
 
 ### 6. Отчёт Allure
@@ -116,7 +117,7 @@ src/test
 │   │   ├── booking/BookingSpec           # коды и схемы CRUD бронирования
 │   │   └── platform/PlatformSpec         # запросы к /api платформы
 │   └── tests
-│       ├── api                           # 12 тестов Restful Booker, TestBase, TestData
+│       ├── api                           # 12 тестов Restful Booker, TestBase, TestData, TestDataGenerationSteps
 │       └── ui                            # RoomUiTests, BookingFormTests, BaseTest, testdata/TestData
 └── resources
     ├── allure.properties

@@ -16,9 +16,9 @@ public class UpdateBookingTests extends TestBase {
     @Test
     @DisplayName("PUT: полное обновление бронирования (позитивный сценарий, 200)")
     public void updateBookingTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
         String token = api.auth.createToken(new AuthRequestModel(ADMIN_USERNAME, ADMIN_PASSWORD));
-        BookingModel updateData = newBookingBody();
+        BookingModel updateData = steps.newBookingBody();
 
         BookingModel response =
             api.booking.updateBooking(token, createdBooking.bookingid(), updateData);
@@ -36,10 +36,10 @@ public class UpdateBookingTests extends TestBase {
     @Test
     @DisplayName("PUT: обновление бронирования без авторизации (ошибка, 403)")
     public void updateBookingWithoutTokenTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
 
         String response =
-            api.booking.updateBookingWithoutToken(createdBooking.bookingid(), newBookingBody());
+            api.booking.updateBookingWithoutToken(createdBooking.bookingid(), steps.newBookingBody());
 
         step("Проверка ответа 'Forbidden'", () ->
             assertThat(response).contains(FORBIDDEN_BODY)
