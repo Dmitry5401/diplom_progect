@@ -15,7 +15,7 @@ public class DeleteBookingTests extends TestBase {
     @Test
     @DisplayName("DELETE: удаление бронирования (позитивный сценарий, 201)")
     public void deleteBookingTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
         String token = api.auth.createToken(new AuthRequestModel(ADMIN_USERNAME, ADMIN_PASSWORD));
 
         api.booking.deleteBooking(token, createdBooking.bookingid());
@@ -30,7 +30,7 @@ public class DeleteBookingTests extends TestBase {
     @Test
     @DisplayName("DELETE: удаление бронирования без авторизации (ошибка, 403)")
     public void deleteBookingWithoutTokenTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
 
         String response = api.booking.deleteBookingWithoutToken(createdBooking.bookingid());
 

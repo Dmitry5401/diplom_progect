@@ -16,7 +16,7 @@ public class GetBookingTests extends TestBase {
     @Test
     @DisplayName("GET: получение бронирования по id (позитивный сценарий, 200)")
     public void getBookingByIdTest() {
-        CreateBookingResponseModel createdBooking = createBooking(newBookingBody());
+        CreateBookingResponseModel createdBooking = steps.createBooking(steps.newBookingBody());
         BookingModel expected = createdBooking.booking();
 
         BookingModel response = api.booking.getBooking(createdBooking.bookingid());

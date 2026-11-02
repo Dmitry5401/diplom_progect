@@ -15,9 +15,9 @@ public class CreateBookingTests extends TestBase {
     @Test
     @DisplayName("POST: создание бронирования (позитивный сценарий, 200)")
     public void createBookingTest() {
-        BookingModel bookingData = newBookingBody();
+        BookingModel bookingData = steps.newBookingBody();
 
-        CreateBookingResponseModel response = createBooking(bookingData);
+        CreateBookingResponseModel response = steps.createBooking(bookingData);
 
         step("Проверка созданного бронирования", () -> {
             assertThat(response.bookingid()).isPositive();
