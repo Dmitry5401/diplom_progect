@@ -45,4 +45,5 @@ public class UpdateBookingTests extends TestBase {
             assertThat(response).contains(FORBIDDEN_BODY)
         );
     }
+
 }
