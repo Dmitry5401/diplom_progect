@@ -62,7 +62,8 @@
 
 Страница бронирования описана отдельным классом в пакете `pages` (паттерн Page Object):
 тест вызывает его методы, чтобы открыть страницу, проверить комнату и отправить форму гостя
-(`openReservation`, `openBookingForm`, `submitGuest`, `checkValidationError`,
+(`openReservation`, `openBookingForm`, `setFirstName`, `setLastName`, `setEmail`,
+`setPhone`, `clickSubmit`, `checkValidationError`,
 `checkRoomDisplayed`, `checkRoomNotDisplayed`).
 Класс `helpers/Attach` после прогона добавляет в отчёт Allure скриншот, код страницы,
 логи браузера и видео. Браузер, размер окна, запуск без окна и адрес Selenoid задаются
