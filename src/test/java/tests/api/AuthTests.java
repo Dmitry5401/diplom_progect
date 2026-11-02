@@ -33,4 +33,5 @@ public class AuthTests extends TestBase {
             assertThat(response.reason()).isEqualTo(BAD_CREDENTIALS_REASON);
         });
     }
+
 }
