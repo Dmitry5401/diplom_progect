@@ -181,7 +181,7 @@ src/test
 ```sh
 ./gradlew test -DbaseUrl=https://restful-booker.herokuapp.com   # API restful-booker
 ./gradlew test -DplatformUrl=https://automationintesting.online # платформа для UI
-./gradlew test -DadminUsername=admin -DadminPassword=password   # креды админки платформы
+./gradlew test -DadminUsername=admin -DadminPassword=<пароль>   # пароль задаётся локально, в репозитории его нет
 ```
 
 <p align="right"><a href="#readme-top">back to top</a></p>

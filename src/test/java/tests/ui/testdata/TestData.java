@@ -10,7 +10,15 @@ public class TestData {
     private final Faker faker = new Faker();
 
     public final String adminUsername = System.getProperty("adminUsername", "admin");
-    public final String adminPassword = System.getProperty("adminPassword", "password");
+    public final String adminPassword = System.getProperty("adminPassword");
+
+    public static void requireAdminPassword() {
+        String password = System.getProperty("adminPassword");
+        if (password == null || password.isBlank()) {
+            throw new IllegalStateException("Задайте пароль параметром -DadminPassword");
+        }
+    }
+
     public final String checkin = "2026-10-01";
     public final String checkout = "2026-10-02";
 

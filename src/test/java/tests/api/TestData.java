@@ -5,8 +5,14 @@ public final class TestData {
     private TestData() {
     }
 
+    public static void requireAdminPassword() {
+        if (ADMIN_PASSWORD == null || ADMIN_PASSWORD.isBlank()) {
+            throw new IllegalStateException("Задайте пароль параметром -DadminPassword");
+        }
+    }
+
     public static final String ADMIN_USERNAME = System.getProperty("adminUsername", "admin");
-    public static final String ADMIN_PASSWORD = System.getProperty("adminPassword", "password123");
+    public static final String ADMIN_PASSWORD = System.getProperty("adminPassword");
     public static final String WRONG_PASSWORD = "wrong_password";
 
     public static final int NONEXISTENT_BOOKING_ID = 99999999;

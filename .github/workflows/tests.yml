@@ -42,6 +42,7 @@ jobs:
           -DbrowserVersion=${{ github.event.inputs.browserVersion || '' }}
           -DbrowserSize=${{ github.event.inputs.browserSize || '1920x1080' }}
           -Dheadless=${{ github.event.inputs.headless || 'true' }}
+          -DadminPassword=${{ secrets.ADMIN_PASSWORD }}
 
       - name: Upload Allure results
         if: always()
