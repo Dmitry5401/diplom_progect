@@ -155,33 +155,53 @@ src/test
 <a id="run"></a>
 ## :ballot_box_with_check: Запуск тестов из терминала
 
-Запуск всех тестов:
+Пароль администратора передают параметром `-DadminPassword`. Без него сборка останавливается до тестов с сообщением `Задайте пароль параметром -DadminPassword`.
+
+У Restful Booker и у платформы разные пароли, а параметр один. В одной команде Gradle можно передать только одно значение, поэтому API- и UI-тесты запускают отдельно. Пароль пишите в одинарных кавычках. Угловые скобки не ставьте: в bash `<` — это перенаправление ввода.
+
+Логин по умолчанию `admin`. Другой логин задают параметром `-DadminUsername`.
+
+API-тесты Restful Booker:
 
 ```sh
-./gradlew clean test
+./gradlew test --tests "tests.api.*" -DadminPassword='пароль Restful Booker'
 ```
 
-Только API- или только UI-тесты:
+UI-тесты платформы:
 
 ```sh
-./gradlew test --tests "tests.api.*"
-./gradlew test --tests "tests.ui.*"
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы'
 ```
 
-Полезные параметры UI-тестов (по умолчанию — локальный Chrome):
+Только форма бронирования:
 
 ```sh
-./gradlew test -Dheadless=true                 # запуск без окна браузера
-./gradlew test -DbrowserSize=1920x1080         # размер окна
-./gradlew test -DremoteUrl=https://user:pass@selenoid.autotests.cloud/wd/hub   # запуск в Selenoid
+./gradlew test --tests "tests.ui.BookingFormTests" -DadminPassword='пароль платформы'
 ```
 
-Переопределение адресов и учётных данных:
+Оба набора подряд:
 
 ```sh
-./gradlew test -DbaseUrl=https://restful-booker.herokuapp.com   # API restful-booker
-./gradlew test -DplatformUrl=https://automationintesting.online # платформа для UI
-./gradlew test --tests "tests.api.*" -DadminPassword='пароль'   # свой пароль в кавычках, без угловых скобок
+./gradlew test --tests "tests.api.*" -DadminPassword='пароль Restful Booker'
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы'
+```
+
+Демон Gradle может сохранить `-DadminPassword` от предыдущего запуска. Чтобы команда взяла пароль только из этой строки, добавьте `--no-daemon`.
+
+Параметры браузера добавляют к команде UI-тестов (по умолчанию — локальный Chrome):
+
+```sh
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы' -Dheadless=true
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы' -DbrowserSize=1920x1080
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы' -DremoteUrl=https://user:pass@selenoid.autotests.cloud/wd/hub
+```
+
+Адреса сервисов уже заданы в коде. Переопределение:
+
+```sh
+./gradlew test --tests "tests.api.*" -DadminPassword='пароль Restful Booker' -DbaseUrl=https://restful-booker.herokuapp.com
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы' -DbaseUrl=https://automationintesting.online
+./gradlew test --tests "tests.ui.*" -DadminPassword='пароль платформы' -DplatformUrl=https://automationintesting.online
 ```
 
 <p align="right"><a href="#readme-top">back to top</a></p>
