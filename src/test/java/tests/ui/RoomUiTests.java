@@ -60,5 +60,4 @@ public class RoomUiTests extends BaseTest {
             reservationPage.checkRoomNotDisplayed(room.description());
         });
     }
-
 }
