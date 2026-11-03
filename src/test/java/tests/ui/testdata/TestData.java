@@ -3,6 +3,7 @@ package tests.ui.testdata;
 import models.platform.RoomRequestModel;
 import net.datafaker.Faker;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class TestData {
@@ -19,8 +20,8 @@ public class TestData {
         }
     }
 
-    public final String checkin = "2026-10-01";
-    public final String checkout = "2026-10-02";
+    public final String checkin = LocalDate.now().plusDays(7).toString();
+    public final String checkout = LocalDate.now().plusDays(8).toString();
 
     public RoomRequestModel roomToCreate() {
         String roomName = String.valueOf(faker.number().numberBetween(100000, 999999));
